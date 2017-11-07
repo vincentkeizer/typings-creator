@@ -1,0 +1,3 @@
+D:\Projects\personal\SignalR-typings-creator\TypingsCreator.Core\bin\Release\netstandard1.2\TypingsCreator.Core.deps.json
+D:\Projects\personal\SignalR-typings-creator\TypingsCreator.Core\obj\Release\netstandard1.2\TypingsCreator.Core.csprojResolveAssemblyReference.cache
+D:\Projects\personal\SignalR-typings-creator\TypingsCreator.Core\obj\Release\netstandard1.2\TypingsCreator.Core.AssemblyInfo.cs

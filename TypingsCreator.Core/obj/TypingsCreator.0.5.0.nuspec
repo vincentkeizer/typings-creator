@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>TypingsCreator</id>
+    <version>0.5.0</version>
+    <authors>Vincent Keizer</authors>
+    <owners>Vincent Keizer</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/vincentkeizer/typings-creator</projectUrl>
+    <description>Package Description</description>
+    <tags>TypeScript typings definitions generator</tags>
+    <repository url="https://github.com/vincentkeizer/typings-creator" />
+    <dependencies>
+      <group targetFramework=".NETStandard2.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\Projects\personal\typings-creator\TypingsCreator.Core\bin\Release\netstandard2.0\TypingsCreator.Core.dll" target="lib\netstandard2.0\TypingsCreator.Core.dll" />
+  </files>
+</package>

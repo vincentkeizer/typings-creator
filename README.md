@@ -18,6 +18,7 @@ Install-Package TypingsCreator
 ## Usage
 
 The TypingsFileWriter requires a list of ITypeScriptClass implementations and creates a definition file for every class.
+A default implementation for ITypeScriptClass (DefaultTypeScriptClass) is available in the same namespace. 
 
 ### Example
 

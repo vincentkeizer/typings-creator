@@ -4,9 +4,9 @@ namespace TypingsCreator.Core.Naming
 {
     public class TypeScriptClassNameResolver : ITypeScriptClassNameResolver
     {
-        public string GetClassName(Type hubType)
+        public string GetClassName(Type classType)
         {
-            return hubType.Name;
+            return classType.Name;
         }
     }
 }

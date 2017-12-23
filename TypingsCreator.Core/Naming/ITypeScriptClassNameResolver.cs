@@ -4,6 +4,6 @@ namespace TypingsCreator.Core.Naming
 {
     public interface ITypeScriptClassNameResolver
     {
-        string GetClassName(Type hubType);
+        string GetClassName(Type classType);
     }
 }

@@ -22,6 +22,8 @@ A default implementation for ITypeScriptClass (DefaultTypeScriptClass) is availa
 
 ### Example
 
+
+
 ```csharp
 var writer = new TypingsFileWriter();
 writer.WriteFiles(config.ProjectRootDir, config.RelativeOutputDir, typeScriptClasses);

@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using TypingsCreator.Core.Classes;
 
 namespace TypingsCreator.Core.Models
 {
     public class TypeScriptModelList
     {
-        private readonly IList<TypeScriptModel> _models;
+        private readonly IList<ITypeScriptClass> _models;
 
         public TypeScriptModelList()
         {
-            _models = new List<TypeScriptModel>();    
+            _models = new List<ITypeScriptClass>();    
         }
 
         public void Add(TypeScriptModelList typeScriptModelList)
@@ -20,7 +21,7 @@ namespace TypingsCreator.Core.Models
             }
          }
 
-        public void Add(TypeScriptModel model)
+        public void Add(ITypeScriptClass model)
         {
             if (model == null) { return; }
 
@@ -32,7 +33,7 @@ namespace TypingsCreator.Core.Models
             }
         }
 
-        public IEnumerable<TypeScriptModel> GetModels()
+        public IEnumerable<ITypeScriptClass> GetModels()
         {
             return _models;
         }

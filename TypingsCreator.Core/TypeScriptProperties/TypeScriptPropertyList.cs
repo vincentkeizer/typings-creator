@@ -1,36 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
+using TypingsCreator.Core.Classes;
 using TypingsCreator.Core.Models;
+using TypingsCreator.Core.TypeScriptProperties.Naming;
 
 namespace TypingsCreator.Core.TypeScriptProperties
 {
-    public class TypeScriptPropertyList : IModelProvider
+    public class TypeScriptPropertyList : IModelProvider, ITypeScriptPropertyList
     {
         private readonly Type _modelType;
-        private IList<TypeScriptProperty> _properties;
+        private readonly ITypeScriptPropertyNameResolver _typeScriptPropertyNameResolver;
+        private readonly ITypeScriptClassFactory _typeScriptClassFactory;
+        private readonly IList<TypeScriptProperty> _properties;
 
-        public TypeScriptPropertyList(Type modelType)
+        public TypeScriptPropertyList(Type modelType, ITypeScriptPropertyNameResolver typeScriptPropertyNameResolver, ITypeScriptClassFactory typeScriptClassFactory)
         {
             _modelType = modelType;
-            FindProperties();
+            _typeScriptPropertyNameResolver = typeScriptPropertyNameResolver;
+            _typeScriptClassFactory = typeScriptClassFactory;
+            _properties = FindProperties();
         }
 
         public void GeneratePropertyDefinitions(StringBuilder stringBuilder)
         {
+            var totalNumberOfProperties = _properties.Count;
             var i = 1;
             foreach (var property in _properties)
             {
-                var lineEnd = "";
-                if (i < _properties.Count)
+                var propertyDefinition = $"     {property.GeneratePropertyDefinition()}";
+                if (i < totalNumberOfProperties)
                 {
-                    lineEnd = ",";
+                    stringBuilder.Append(propertyDefinition);
+                    stringBuilder.AppendLine(",");
+                }
+                else
+                {
+                    stringBuilder.Append(propertyDefinition);
                 }
                 i++;
-
-                stringBuilder.AppendLine($"     {property.GeneratePropertyDefinition()}{lineEnd}");
             }
+        }
+
+        public bool HasProperties()
+        {
+            return _properties.Count > 0;
         }
 
         public void AddModelsToCollection(TypeScriptModelList modelCollection)
@@ -41,15 +57,17 @@ namespace TypingsCreator.Core.TypeScriptProperties
             }
         }
 
-        private void FindProperties()
+        private IList<TypeScriptProperty> FindProperties()
         {
-            _properties = new List<TypeScriptProperty>();
-            var properties = _modelType.GetTypeInfo().DeclaredProperties;
-            foreach (var property in properties)
+            var properties = new List<TypeScriptProperty>();
+            var declaredProperties = _modelType.GetTypeInfo().DeclaredProperties;
+            foreach (var property in declaredProperties)
             {
-                var typeScriptProperty = new TypeScriptProperty(property);
-                _properties.Add(typeScriptProperty);
+                var typeScriptProperty = new TypeScriptProperty(property, _typeScriptPropertyNameResolver, _typeScriptClassFactory);
+                properties.Add(typeScriptProperty);
             }
+
+            return properties;
         }
     }
 }

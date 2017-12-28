@@ -34,7 +34,7 @@ namespace TypingsCreator.Core.Writing
                 var fullPath = typingsDir + typeScriptModel.GetTypingsFileName();
                 AddFileToTypingsFileList(fullPath, typingsFiles);
 
-                var fileContents = typeScriptModel.GenerateModelDefinition();
+                var fileContents = typeScriptModel.GenerateClassDefinition();
                 WriteFile(fullPath, fileContents);
             }
 

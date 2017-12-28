@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TypingsCreator.Core.Naming
+namespace TypingsCreator.Core.Classes.Naming
 {
     public interface ITypeScriptClassNameResolver
     {

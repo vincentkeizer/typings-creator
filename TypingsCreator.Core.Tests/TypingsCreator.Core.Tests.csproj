@@ -48,6 +48,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DummyClasses\DummyClassWithMethods.cs" />
+    <Compile Include="Classes\DummyClasses\DummyClassWithMethodsAndProperties.cs" />
+    <Compile Include="Classes\DefaultTypeScriptClassTests.cs" />
+    <Compile Include="Classes\DummyClasses\DummyClassWithProperties.cs" />
     <Compile Include="Typings\TypeConversion\DummyClass.cs" />
     <Compile Include="Typings\TypeConversion\TypeScriptTypeHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

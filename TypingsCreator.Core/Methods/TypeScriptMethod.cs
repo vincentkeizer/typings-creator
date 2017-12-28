@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using System.Text;
+using TypingsCreator.Core.Classes;
+using TypingsCreator.Core.Methods.Naming;
 using TypingsCreator.Core.Models;
-using TypingsCreator.Core.Naming;
 using TypingsCreator.Core.TypeConversion;
 
 namespace TypingsCreator.Core.Methods
@@ -14,10 +15,10 @@ namespace TypingsCreator.Core.Methods
         private readonly TypeScriptModelCreator _typeScriptModelCreator;
         private readonly ITypeScriptMethodNameResolver _typeScriptMethodNameResolver;
 
-        public TypeScriptMethod(MethodInfo method, ITypeScriptMethodNameResolver typeScriptMethodNameResolver)
+        public TypeScriptMethod(MethodInfo method, ITypeScriptMethodNameResolver typeScriptMethodNameResolver, ITypeScriptClassFactory typeScriptClassFactory)
         {
             _method = method;
-            _typeScriptModelCreator = new TypeScriptModelCreator();
+            _typeScriptModelCreator = new TypeScriptModelCreator(typeScriptClassFactory);
             _typeScriptTypeHandler = new TypeScriptTypeHandler();
             _typeScriptMethodNameResolver = typeScriptMethodNameResolver;
         }
@@ -46,7 +47,7 @@ namespace TypingsCreator.Core.Methods
         {
             var methodName = _typeScriptMethodNameResolver.GetMethodName(_method);
 
-            return Char.ToLowerInvariant(methodName[0]) + methodName.Substring(1);
+            return methodName;
         }
 
         private void AddParameters(StringBuilder stringBuilder)

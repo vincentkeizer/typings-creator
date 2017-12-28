@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Reflection;
+using TypingsCreator.Core.Classes;
 using TypingsCreator.Core.TypeConversion;
 
 namespace TypingsCreator.Core.Models
 {
     public class TypeScriptModelCreator
     {
+        private readonly ITypeScriptClassFactory _typeScriptClassFactory;
         private readonly TypeScriptTypeHandler _typeScriptTypeHandler;
 
-        public TypeScriptModelCreator()
+        public TypeScriptModelCreator(ITypeScriptClassFactory typeScriptClassFactory)
         {
+            _typeScriptClassFactory = typeScriptClassFactory;
             _typeScriptTypeHandler = new TypeScriptTypeHandler();
         }
 
@@ -31,21 +34,21 @@ namespace TypingsCreator.Core.Models
             return modelList;
         }
 
-        public TypeScriptModel CreateModel(PropertyInfo property)
+        public ITypeScriptClass CreateModel(PropertyInfo property)
         {
             return CreateTypeScriptModel(property.PropertyType);
         }
 
-        private TypeScriptModel CreateTypeScriptModel(Type type)
+        private ITypeScriptClass CreateTypeScriptModel(Type type)
         {
             if (_typeScriptTypeHandler.IsUnknownType(type))
             {
                 if (_typeScriptTypeHandler.IsCollection(type))
                 {
                     var collectionType = _typeScriptTypeHandler.GetTypeFromCollection(type);
-                    return new TypeScriptModel(collectionType);
+                    return _typeScriptClassFactory.Create(collectionType);
                 }
-                return new TypeScriptModel(type);
+                return _typeScriptClassFactory.Create(type);
             }
             
             return null;

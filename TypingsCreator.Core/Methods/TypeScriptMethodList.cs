@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using TypingsCreator.Core.Classes;
+using TypingsCreator.Core.Methods.Naming;
 using TypingsCreator.Core.Models;
-using TypingsCreator.Core.Naming;
 
 namespace TypingsCreator.Core.Methods
 {
-    public class TypeScriptMethodList : IModelProvider
+    public class TypeScriptMethodList : IModelProvider, ITypeScriptMethodList
     {
         private readonly Type _type;
         private readonly ITypeScriptMethodNameResolver _typeScriptMethodNameResolver;
-        private IList<TypeScriptMethod> _methods;
+        private readonly ITypeScriptClassFactory _typeScriptClassFactory;
+        private readonly IList<TypeScriptMethod> _methods;
 
-        public TypeScriptMethodList(Type type, ITypeScriptMethodNameResolver typeScriptMethodNameResolver)
+        public TypeScriptMethodList(Type type, ITypeScriptMethodNameResolver typeScriptMethodNameResolver, ITypeScriptClassFactory typeScriptClassFactory)
         {
             _type = type;
             _typeScriptMethodNameResolver = typeScriptMethodNameResolver;
-            FindMethods();
+            _typeScriptClassFactory = typeScriptClassFactory;
+            _methods = FindMethods();
         }
 
         public void GenerateMethodDefinitions(StringBuilder stringBuilder)
@@ -26,15 +29,23 @@ namespace TypingsCreator.Core.Methods
             var i = 1;
             foreach (var method in _methods)
             {
-                var lineEnd = "";
+                var methodDefinition = $"     {method.GenerateMethodDefinition()}";
                 if (i < totalNumberOfMethods)
                 {
-                    lineEnd = ",";
+                    stringBuilder.Append(methodDefinition);
+                    stringBuilder.AppendLine(",");
+                }
+                else
+                {
+                    stringBuilder.Append(methodDefinition);
                 }
                 i++;
-
-                stringBuilder.AppendLine($"     {method.GenerateMethodDefinition()}{lineEnd}");
             }
+        }
+
+        public bool HasMethods()
+        {
+            return _methods.Count > 0;
         }
 
         public void AddModelsToCollection(TypeScriptModelList modelCollection)
@@ -44,23 +55,25 @@ namespace TypingsCreator.Core.Methods
                 method.AddModelsToCollection(modelCollection);
             }
         }
-
-        private void FindMethods()
+        
+        private IList<TypeScriptMethod> FindMethods()
         {
-            _methods = new List<TypeScriptMethod>();
+            var methods = new List<TypeScriptMethod>();
             if (_type == null)
             {
-                return;
+                return new List<TypeScriptMethod>();
             }
 
             foreach (var method in _type.GetTypeInfo().DeclaredMethods)
             {
-                if (method.DeclaringType == _type)
+                if (method.DeclaringType == _type && !method.IsSpecialName)
                 {
-                    var typeScriptMethod = new TypeScriptMethod(method, _typeScriptMethodNameResolver);
-                    _methods.Add(typeScriptMethod);
+                    var typeScriptMethod = new TypeScriptMethod(method, _typeScriptMethodNameResolver, _typeScriptClassFactory);
+                    methods.Add(typeScriptMethod);
                 }
             }
+
+            return methods;
         }
     }
 }

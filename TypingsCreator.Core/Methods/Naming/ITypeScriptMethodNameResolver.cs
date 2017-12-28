@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace TypingsCreator.Core.Naming
+namespace TypingsCreator.Core.Methods.Naming
 {
     public interface ITypeScriptMethodNameResolver
     {

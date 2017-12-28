@@ -21,6 +21,8 @@ The TypingsFileWriter requires a list of ITypeScriptClass implementations and cr
 
 ### Example
 
+
+
 ```csharp
 var writer = new TypingsFileWriter();
 writer.WriteFiles(config.ProjectRootDir, config.RelativeOutputDir, typeScriptClasses);
